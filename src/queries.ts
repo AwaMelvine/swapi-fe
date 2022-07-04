@@ -33,3 +33,17 @@ export const GET_PERSON_BY_ID_QUERY = gql`
     }
   }
 `;
+
+export const SEARCH_PEOPLE_BY_NAME_QUERY = gql`
+  query searchPeopleByName($name: String!) {
+    searchPeople(name: $name) {
+      id
+      image
+      name
+      height
+      mass
+      gender
+      homeworld
+    }
+  }
+`;

@@ -66,8 +66,12 @@ const CharacterList: React.FC<Props> = ({ people }) => {
   
   return (
     <React.Fragment>
-      {people.map((person) => (
-        <Link href={`/people/${person.id}`} key={person.id}>
+      {people.map((person) => {
+        if (!person.displaying) {
+          return null;
+        }
+        return (
+          <Link href={`/people/${person.id}`} key={person.id}>
           <PersonCard>
             <ImageWrapper>
               <img src={person.image} alt={`A picture of ${person.name}`} />
@@ -78,7 +82,8 @@ const CharacterList: React.FC<Props> = ({ people }) => {
             </DetailsWrapper>
           </PersonCard>
         </Link>
-      ))}
+        );
+      })}
     </React.Fragment>
   );
 };

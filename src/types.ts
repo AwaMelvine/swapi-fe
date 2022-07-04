@@ -9,6 +9,7 @@ export type Person = {
   gender: string;
   homeworld: string;
   url?: string;
+  displaying?: boolean;
 };
 
 export type PeoplePage = {
