@@ -1,14 +1,17 @@
 import React from 'react';
 import { Spinner } from '@chakra-ui/react';
-import PageSection from './PageSection';
+import styled from 'styled-components';
+
+const Wrapper = styled.div`
+  text-align: center;
+  margin: 32px auto 32px;
+`;
 
 const LoadingSpinner = () => {
   return (
-    <PageSection>
-      <div style={{ textAlign: 'center', marginTop: '32px' }}>
-        <Spinner size='xl' color='lightgray' />;
-      </div>
-    </PageSection>
+    <Wrapper>
+      <Spinner size='xl' color='lightgray' />;
+    </Wrapper>
   );
 };
 

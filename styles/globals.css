@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik+Moonrocks&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Rubik+Moonrocks&display=swap');
 
 html,
 body {
@@ -25,7 +25,8 @@ main {
 
 .star-wars-title {
   font-family: 'Rubik Moonrocks', cursive;
-  color: lightblue;
+  color: yellow;
+  letter-spacing: 1.05rem;
   font-size: 4rem;
   text-align: center;
   font-style: italic;
