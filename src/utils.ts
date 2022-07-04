@@ -6,7 +6,7 @@
 export const generatePaginationNumbers = (currentPage: number, totalNumberOfPages: number) => {
   var current = currentPage,
       last = totalNumberOfPages - 1,
-      delta = 3,
+      delta = 6,
       left = current - delta,
       right = current + delta + 1,
       range = [],
@@ -33,3 +33,10 @@ export const generatePaginationNumbers = (currentPage: number, totalNumberOfPage
 
   return rangeWithDots;
 }
+
+export const ucfirst = (str: string) => {
+    if (!str) {
+        return str;
+    }
+    return str[0].toUpperCase() + str.slice(1);
+};

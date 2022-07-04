@@ -3,6 +3,8 @@ import React from 'react';
 import { Person } from 'src/types';
 import styled from 'styled-components';
 import { Heading } from '@chakra-ui/react';
+import LoadingSpinner from 'src/components/LoadingSpinner';
+import { ucfirst } from 'src/utils';
 
 const PersonCard = styled.a`
   display: block;
@@ -58,6 +60,10 @@ type Props = {
 };
 
 const CharacterList: React.FC<Props> = ({ people }) => {
+  if (!people) {
+    return <LoadingSpinner />;
+  }
+  
   return (
     <React.Fragment>
       {people.map((person) => (
@@ -68,7 +74,7 @@ const CharacterList: React.FC<Props> = ({ people }) => {
             </ImageWrapper>
             <DetailsWrapper>
               <CharacterName as="h2" className="name">{person.name}</CharacterName>
-              <Heading as='h3' size='md'>Gender: {person.gender}</Heading>
+              <Heading as='h3' size='md'>Gender: {ucfirst(person.gender)}</Heading>
             </DetailsWrapper>
           </PersonCard>
         </Link>
