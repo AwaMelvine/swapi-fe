@@ -2,15 +2,11 @@ import Link from 'next/link';
 import React from 'react';
 import { Person } from 'src/types';
 import styled from 'styled-components';
-
-const Wrapper = styled.div`
-  margin: 32px auto;
-  width: 60%;
-`;
+import PageSection from 'src/components/PageSection';
 
 const PersonCard = styled.a`
   display: block;
-  margin: 30px auto;
+  margin: 0 auto 32px;
   border: 1px solid lightgray;
 `;
 
@@ -20,7 +16,7 @@ type Props = {
 
 const CharacterList: React.FC<Props> = ({ people }) => {
   return (
-    <Wrapper>
+    <PageSection>
       {people.map((person) => (
         <Link href={`/people/${person.id}`} key={person.id}>
           <PersonCard>
@@ -31,7 +27,7 @@ const CharacterList: React.FC<Props> = ({ people }) => {
           </PersonCard>
         </Link>
       ))}
-    </Wrapper>
+    </PageSection>
   );
 };
 

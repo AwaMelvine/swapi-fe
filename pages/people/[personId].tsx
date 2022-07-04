@@ -5,6 +5,7 @@ import { GET_PERSON_BY_ID_QUERY } from 'src/queries';
 import { useRouter } from 'next/router';
 import { Person } from 'src/types';
 import CharacterDetails from 'src/components/CharacterDetails';
+import PageSection from 'src/components/PageSection';
 
 type GetPersonByIdQueryResponse = {
   personById: Person;
@@ -32,10 +33,12 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <div style={{ width: '60%', margin: '10px auto 64px' }}>
-          <button onClick={() => back()}>Back</button>
-          <CharacterDetails person={data?.personById as Person} />
-        </div>
+        <PageSection>
+          <div style={{ width: '60%', margin: '10px auto 64px' }}>
+            <button onClick={() => back()}>Back</button>
+            <CharacterDetails person={data?.personById as Person} />
+          </div>
+        </PageSection>
       </main>
     </div>
   );

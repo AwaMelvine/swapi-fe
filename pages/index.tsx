@@ -7,6 +7,7 @@ import CharacterList from "src/components/CharacterList";
 import { useRouter } from 'next/router';
 import { generatePaginationNumbers } from 'src/utils';
 import type { PeoplePage } from 'src/types';
+import LoadingSpinner from 'src/components/LoadingSpinner';
 
 type GetPeoplePageQueryResponse = {
   peoplePage: PeoplePage;
@@ -22,10 +23,6 @@ const Home: NextPage = () => {
   const { loading, data } = useQuery<GetPeoplePageQueryResponse, GetPeoplePageQueryVariables>(GET_PEOPLE_PAGE_QUERY, { variables: { currentPage } });
   const paginationNumbers = data?.peoplePage ? generatePaginationNumbers(currentPage, data.peoplePage.count) : undefined;
 
-  if (loading && !data) {
-    return <p>Loading...</p>
-  }
-
   return (
     <div>
       <Head>
@@ -35,8 +32,9 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        {data?.peoplePage?.people && <CharacterList people={data.peoplePage.people} />}
-        <div style={{ width: '60%', margin: '10px auto 64px' }}>
+          <h1 className='star-wars-title'>Star Wars</h1>
+          {data?.peoplePage?.people && <CharacterList people={data.peoplePage.people} />}
+          {loading && !data && <LoadingSpinner />}
           {paginationNumbers?.map(page => {
             if (page === '...') {
               return <Link key={page} href="#">{page}</Link>
@@ -45,7 +43,6 @@ const Home: NextPage = () => {
               <Link key={page} href={`?page=${page}`}>{page}</Link>
             );
           })}
-        </div>
       </main>
     </div>
   );

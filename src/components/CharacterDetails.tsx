@@ -1,11 +1,6 @@
 import React from 'react';
 import { Person } from 'src/types';
-import styled from 'styled-components';
-
-const Wrapper = styled.div`
-  margin: 32px auto;
-  width: 60%;
-`;
+import PageSection from 'src/components/PageSection';
 
 type Props = {
   person: Person;
@@ -13,9 +8,9 @@ type Props = {
 
 const CharacterDetails: React.FC<Props> = ({ person }) => {
   return (
-    <Wrapper>
+    <PageSection>
       <p>{person.name}</p>
-    </Wrapper>
+    </PageSection>
   );
 };
 

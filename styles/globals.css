@@ -1,9 +1,35 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik+Moonrocks&display=swap');
+
 html,
 body {
   padding: 0;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+main {
+  min-height: 100vh;
+  min-width: 100vw;
+  background-image: url('/star_wars_bg_image.jpeg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: 100% ;
+  background-color: #0b0b25;
+  padding-top: 32px;
+}
+
+.star-wars-title {
+  font-family: 'Rubik Moonrocks', cursive;
+  color: lightblue;
+  font-size: 4rem;
+  text-align: center;
+  font-style: italic;
+  margin-bottom: 32px;
 }
 
 a {
