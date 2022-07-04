@@ -70,42 +70,32 @@ type GetPeoplePageQueryVariables = {
 
 const CharactersSection = () => {
   const [currentCharacters, setCurrentCharacters] = useState<Person[]>();
+  const [searchResults, setSearchResults] = useState<Person[] | undefined>();
   const [searchTerm, setSearchTerm] = useState<string>('');
   const { query } = useRouter();
   const currentPage = !!query.page ? Number(query.page) : 1;
   const { loading, error, data } = useQuery<GetPeoplePageQueryResponse, GetPeoplePageQueryVariables>(GET_PEOPLE_PAGE_QUERY, { variables: { currentPage } });
-  const [searchPeopleByName, { loading: searchResultsLoading, error: searchError, data: searchData }] = useLazyQuery<SearchPeopleQueryResponse>(SEARCH_PEOPLE_BY_NAME_QUERY);
+  const [searchPeopleByName, { loading: searchResultsLoading }] = useLazyQuery<SearchPeopleQueryResponse>(SEARCH_PEOPLE_BY_NAME_QUERY);
   const paginationNumbers = data?.peoplePage ? generatePaginationNumbers(currentPage, Math.ceil(data.peoplePage.total/10)) : undefined;
 
   useEffect(() => {
     if (data?.peoplePage) {
-      const newCharacterList = data.peoplePage.people.map(person => ({
-        ...person,
-        displaying: true,
-      }));
-      setCurrentCharacters(newCharacterList);
+      setCurrentCharacters(data.peoplePage.people);
     }
   }, [data]);
 
   useEffect(() => {
-    if (searchTerm.length > 0) {
-      searchPeopleByName({ variables: { name: searchTerm } }).then(res => {
-        const newCharacterList = currentCharacters?.map(person => ({
-          ...person,
-          displaying: false,
-        }))!;
-        const searchResults = res.data?.searchPeople.map(person => ({
-          ...person,
-          displaying: true,
-        }))!;
-        setCurrentCharacters([...searchResults, ...newCharacterList]);
-      });
+    if (searchTerm.length === 0) {
+      setSearchResults(undefined);
     } else {
-      setCurrentCharacters(currentCharacters?.map(person => ({ ...person, displaying: true })));
+      searchPeopleByName({ variables: { name: searchTerm } }).then(res => {
+        setSearchResults(res.data?.searchPeople);
+      });
     }
+
   }, [searchTerm]);
 
-  if ((loading && !data) || (!searchTerm && searchResultsLoading)) {
+  if (loading && !data) {
     return <LoadingSpinner />;
   }
 
@@ -118,16 +108,18 @@ const CharactersSection = () => {
     );
   }
 
-  const searchCharacterByName = (event: any) => {
+  const searchCharacterByName = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setSearchTerm(event.target.value);
   };
 
+  const shouldShowPagination = paginationNumbers && !searchTerm;
+
   return (
     <PageSection>
-      <Input onChange={searchCharacterByName} placeholder='Search characters by their name...' color='lightblue' />
-      {paginationNumbers && !searchTerm && <PaginationLinks numbers={paginationNumbers} currentPage={currentPage} />}
-      {currentCharacters && <CharacterList people={currentCharacters} />}
-      {paginationNumbers && !searchTerm && <PaginationLinks numbers={paginationNumbers} currentPage={currentPage} />}
+      <Input onChange={searchCharacterByName} placeholder='Search characters by their name...' color='lightblue' style={{ marginBottom: '32px' }} />
+      {shouldShowPagination && <PaginationLinks numbers={paginationNumbers} currentPage={currentPage} />}
+      {currentCharacters && <CharacterList people={searchResults ?? currentCharacters} loading={searchTerm.length > 0 && searchResultsLoading} />}
+      {shouldShowPagination && <PaginationLinks numbers={paginationNumbers} currentPage={currentPage} />}
     </PageSection>
   );
 };

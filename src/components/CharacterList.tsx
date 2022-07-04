@@ -57,19 +57,17 @@ const CharacterName = styled(Heading)`
 
 type Props = {
   people: Person[];
+  loading?: boolean;
 };
 
-const CharacterList: React.FC<Props> = ({ people }) => {
-  if (!people) {
+const CharacterList: React.FC<Props> = ({ people, loading }) => {
+  if (!people && loading) {
     return <LoadingSpinner />;
   }
-  
+
   return (
     <React.Fragment>
       {people.map((person) => {
-        if (!person.displaying) {
-          return null;
-        }
         return (
           <Link href={`/people/${person.id}`} key={person.id}>
           <PersonCard>
