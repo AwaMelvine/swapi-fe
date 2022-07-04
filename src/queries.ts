@@ -19,3 +19,17 @@ export const GET_PEOPLE_PAGE_QUERY = gql`
     }
   }
 `;
+
+export const GET_PERSON_BY_ID_QUERY = gql`
+  query getPersonById($personId: Int) {
+    personById(personId: $personId) {
+      id
+      image
+      name
+      height
+      mass
+      gender
+      homeworld
+    }
+  }
+`;

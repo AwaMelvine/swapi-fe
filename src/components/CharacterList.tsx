@@ -1,7 +1,6 @@
-import { useQuery } from '@apollo/client';
 import Link from 'next/link';
 import React from 'react';
-import { GET_PEOPLE_PAGE_QUERY } from 'src/queries';
+import { Person } from 'src/types';
 import styled from 'styled-components';
 
 const Wrapper = styled.div`
@@ -15,16 +14,14 @@ const PersonCard = styled.a`
   border: 1px solid lightgray;
 `;
 
-const CharacterList = () => {
-  const { loading, error, data } = useQuery(GET_PEOPLE_PAGE_QUERY, {  variables: { currentPage: 1 } });
+type Props = {
+  people: Person[];
+};
 
-  if (loading) {
-    return <p>Loading...</p>;
-  }
-
+const CharacterList: React.FC<Props> = ({ people }) => {
   return (
     <Wrapper>
-      {data.peoplePage.people.map((person: any) => (
+      {people.map((person) => (
         <Link href={`/people/${person.id}`} key={person.id}>
           <PersonCard>
             <React.Fragment>
