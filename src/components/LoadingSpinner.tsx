@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 const LoadingSpinner = () => {
   return (
     <Wrapper>
-      <Spinner size='xl' color='lightgray' />;
+      <Spinner size='xl' color='lightgray' />
     </Wrapper>
   );
 };
