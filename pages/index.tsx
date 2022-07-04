@@ -1,8 +1,31 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
+import { useQuery } from '@apollo/client';
+import { GET_PEOPLE_PAGE_QUERY } from 'src/queries';
 import CharacterList from "src/components/CharacterList";
+import { useRouter } from 'next/router';
+import { generatePaginationNumbers } from 'src/utils';
+import type { PeoplePage } from 'src/types';
+
+type GetPeoplePageQueryResponse = {
+  peoplePage: PeoplePage;
+};
+
+type GetPeoplePageQueryVariables = {
+  currentPage: number;
+};
 
 const Home: NextPage = () => {
+  const { query } = useRouter();
+  const currentPage = !!query.page ? Number(query.page) : 1;
+  const { loading, data } = useQuery<GetPeoplePageQueryResponse, GetPeoplePageQueryVariables>(GET_PEOPLE_PAGE_QUERY, { variables: { currentPage } });
+  const paginationNumbers = data?.peoplePage ? generatePaginationNumbers(currentPage, data.peoplePage.count) : undefined;
+
+  if (loading && !data) {
+    return <p>Loading...</p>
+  }
+
   return (
     <div>
       <Head>
@@ -12,7 +35,17 @@ const Home: NextPage = () => {
       </Head>
 
       <main>
-        <CharacterList />
+        {data?.peoplePage?.people && <CharacterList people={data.peoplePage.people} />}
+        <div style={{ width: '60%', margin: '10px auto 64px' }}>
+          {paginationNumbers?.map(page => {
+            if (page === '...') {
+              return <Link key={page} href="#">{page}</Link>
+            }
+            return (
+              <Link key={page} href={`?page=${page}`}>{page}</Link>
+            );
+          })}
+        </div>
       </main>
     </div>
   );
