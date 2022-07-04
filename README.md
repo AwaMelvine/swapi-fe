@@ -4,7 +4,7 @@ This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next
 
 ### Backend
 
-Clone/download the Backend to your local computer and run the following commands in the order presented:
+Clone/download [the Backend](https://github.com/AwaMelvine/swapi-api) to your local computer and run the following commands in the order presented:
 
 ```
 # First command:
